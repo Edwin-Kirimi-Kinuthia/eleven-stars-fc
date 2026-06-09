@@ -43,6 +43,8 @@ export async function POST(request: Request) {
         shotAccuracy: body.shotAccuracy ?? 0,
         dribbles: body.dribbles ?? 0,
         fifaRegistered: body.fifaRegistered ?? false,
+        bio: body.bio || null,
+        drills: body.drills || null,
       },
     })
     return NextResponse.json(player, { status: 201 })

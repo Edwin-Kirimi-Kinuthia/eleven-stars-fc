@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Star, Check, Loader2 } from 'lucide-react'
 import PageHeader from '@/components/ui/PageHeader'
 
@@ -69,8 +70,8 @@ export default function SquadClient() {
               {players.map(p => {
                 const color = posColors[p.position] ?? posColors.Midfielder
                 return (
-                  <div key={p.id}
-                    className={`group rounded-2xl border overflow-hidden transition-all hover:-translate-y-1 ${
+                  <Link key={p.id} href={`/squad/${p.id}`}
+                    className={`group block rounded-2xl border overflow-hidden transition-all hover:-translate-y-1 ${
                       p.isCaptain
                         ? 'bg-pink/8 border-pink/25 hover:border-pink/40'
                         : 'bg-surface border-white/8 hover:border-white/15'
@@ -138,8 +139,9 @@ export default function SquadClient() {
                       </div>
 
                       <p className="text-gray-600 text-xs">#{p.number} · {p.nationality}</p>
+                      <p className="text-pink text-[11px] font-bold mt-2 opacity-0 group-hover:opacity-100 transition-opacity">View profile →</p>
                     </div>
-                  </div>
+                  </Link>
                 )
               })}
             </div>

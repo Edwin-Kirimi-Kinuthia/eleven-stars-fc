@@ -33,6 +33,8 @@ export async function PATCH(
         shotAccuracy: body.shotAccuracy,
         dribbles: body.dribbles,
         fifaRegistered: body.fifaRegistered,
+        bio: body.bio ?? null,
+        drills: body.drills ?? null,
       },
     })
     return NextResponse.json(player)

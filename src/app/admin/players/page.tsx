@@ -29,6 +29,8 @@ interface Player {
   dribbles?: number
   fifaRegistered?: boolean
   photo?: string
+  bio?: string
+  drills?: string
 }
 
 const positionColors: Record<string, { bg: string; text: string }> = {
@@ -239,6 +241,70 @@ export default function AdminPlayersPage() {
               stats={editingPlayer}
               onChange={(stats) => setEditingPlayer({ ...editingPlayer, ...stats })}
             />
+
+            {/* Bio */}
+            <div>
+              <label className="text-gray-400 text-xs font-bold block mb-2">Bio / About</label>
+              <textarea
+                value={editingPlayer.bio || ''}
+                onChange={(e) => setEditingPlayer({ ...editingPlayer, bio: e.target.value })}
+                rows={3}
+                placeholder="Short bio shown on the player's profile page…"
+                className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-sm resize-y"
+              />
+            </div>
+
+            {/* Drills editor */}
+            {(() => {
+              let drills: { title: string; url: string }[] = []
+              try { drills = editingPlayer.drills ? JSON.parse(editingPlayer.drills) : [] } catch { drills = [] }
+              if (!Array.isArray(drills)) drills = []
+              const commit = (next: { title: string; url: string }[]) =>
+                setEditingPlayer({ ...editingPlayer, drills: next.length ? JSON.stringify(next) : '' })
+              return (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-gray-400 text-xs font-bold">Training Drills (videos)</label>
+                    <button
+                      type="button"
+                      onClick={() => commit([...drills, { title: '', url: '' }])}
+                      className="text-pink text-xs font-bold hover:text-pink-light"
+                    >
+                      + Add drill
+                    </button>
+                  </div>
+                  <p className="text-gray-600 text-[11px] mb-3">Paste a YouTube link (watch, shorts or youtu.be) to embed it, or any other video URL to link out.</p>
+                  <div className="space-y-2">
+                    {drills.length === 0 && (
+                      <p className="text-gray-600 text-xs italic">No drills yet.</p>
+                    )}
+                    {drills.map((d, i) => (
+                      <div key={i} className="flex gap-2">
+                        <input
+                          value={d.title}
+                          onChange={(e) => { const n = [...drills]; n[i] = { ...n[i], title: e.target.value }; commit(n) }}
+                          placeholder="Title"
+                          className="w-1/3 px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-sm"
+                        />
+                        <input
+                          value={d.url}
+                          onChange={(e) => { const n = [...drills]; n[i] = { ...n[i], url: e.target.value }; commit(n) }}
+                          placeholder="https://youtube.com/…"
+                          className="flex-1 px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-white text-sm"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => commit(drills.filter((_, j) => j !== i))}
+                          className="w-9 shrink-0 rounded-lg flex items-center justify-center text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition-all"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Actions */}
             <div className="flex gap-2 pt-4">

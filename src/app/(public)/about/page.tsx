@@ -79,7 +79,7 @@ export default async function AboutPage() {
           </div>
 
           <h1 className="font-black leading-[0.88] mb-6">
-            <span className="block text-[clamp(3.5rem,13vw,9.5rem)] tracking-tight" style={{ background: 'linear-gradient(135deg, #fff 20%, #E91E8C 55%, #C9A84C 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            <span className="grad-clip grad-clip-white block text-[clamp(3.5rem,13vw,9.5rem)] tracking-tight" style={{ background: 'linear-gradient(135deg, #fff 20%, #E91E8C 55%, #C9A84C 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
               ELEVEN
             </span>
             <span className="block text-[clamp(3.5rem,13vw,9.5rem)] tracking-tight text-white">
@@ -123,7 +123,7 @@ export default async function AboutPage() {
               </div>
               <h2 className="text-4xl sm:text-5xl font-black leading-tight mb-6">
                 From Zero to<br />
-                <span style={{ background: 'linear-gradient(135deg, #E91E8C, #C9A84C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Conference League</span>
+                <span className="grad-clip grad-clip-pink" style={{ background: 'linear-gradient(135deg, #E91E8C, #C9A84C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Conference League</span>
               </h2>
               <div className="space-y-5 text-gray-400 leading-relaxed">
                 <p>Eleven Stars FC was born in the heart of Meru — a club created not just to play football, but to represent a community, inspire a generation, and prove that talent from Meru can compete at the highest levels.</p>
@@ -219,7 +219,7 @@ export default async function AboutPage() {
               },
             ].map(({ icon: Icon, title, accent, text, list }) => (
               <div key={title} className="relative rounded-2xl p-8 overflow-hidden group hover:scale-[1.02] transition-transform" style={{ background: '#0F0F0F', border: `1px solid ${accent}20` }}>
-                <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-8 group-hover:opacity-15 transition-opacity pointer-events-none" style={{ background: accent, transform: 'translate(40%, -40%)' }} />
+                <div className="absolute top-0 right-0 w-40 h-40 rounded-full opacity-15 group-hover:opacity-25 transition-opacity pointer-events-none" style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)`, transform: 'translate(40%, -40%)' }} />
                 <div className="size-14 rounded-2xl mb-6 flex items-center justify-center" style={{ background: accent + '15', color: accent }}>
                   <Icon size={24} />
                 </div>
@@ -245,8 +245,8 @@ export default async function AboutPage() {
       <section className="py-20 lg:py-32" style={{ background: 'rgba(255,255,255,0.012)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(233,30,140,0.1) 0%, rgba(8,8,8,0.98) 50%, rgba(201,168,76,0.05) 100%)', border: '1px solid rgba(233,30,140,0.2)' }}>
-            <div className="absolute top-0 left-0 w-72 h-72 rounded-full blur-3xl opacity-10 pointer-events-none" style={{ background: '#E91E8C' }} />
-            <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full blur-3xl opacity-7 pointer-events-none" style={{ background: '#C9A84C' }} />
+            <div className="absolute top-0 left-0 w-72 h-72 rounded-full opacity-25 pointer-events-none" style={{ background: 'radial-gradient(circle, #E91E8C 0%, transparent 70%)' }} />
+            <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #C9A84C 0%, transparent 70%)' }} />
 
             <div className="relative p-8 sm:p-12 lg:p-16">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8 text-xs font-bold uppercase tracking-widest" style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.3)', color: '#C9A84C' }}>
@@ -328,7 +328,7 @@ export default async function AboutPage() {
             {['Akash Ltd', 'Moxi Aluminium'].map(s => (
               <div key={s} className="relative px-12 py-8 rounded-2xl overflow-hidden group transition-all hover:scale-[1.03]" style={{ background: '#0D0D0D', border: '1px solid rgba(201,168,76,0.2)' }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.05), transparent)' }} />
-                <p className="relative font-black text-3xl" style={{ background: 'linear-gradient(135deg, #C9A84C, #F0D080)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s}</p>
+                <p className="grad-clip grad-clip-gold relative font-black text-3xl" style={{ background: 'linear-gradient(135deg, #C9A84C, #F0D080)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{s}</p>
                 <p className="relative text-gray-600 text-xs mt-1">Official Sponsor · Meru, Kenya</p>
               </div>
             ))}

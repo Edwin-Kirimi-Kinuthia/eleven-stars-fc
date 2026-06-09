@@ -25,11 +25,36 @@ body {
   background-color: #080808;
   color: #f5f5f5;
   font-family: 'Inter', system-ui, sans-serif;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
-@media (max-width: 768px) {
-  .animate-fade-up, .animate-float, .animate-ping {
+/* ─── Mobile GPU-safety ──────────────────────────
+   Low-end Android GPUs corrupt (rainbow static) when compositing
+   `background-clip: text` gradients, infinite background-position
+   animations, and large stacked gradient layers. Neutralise those
+   on phones — they're decorative and fall back cleanly. */
+@media (max-width: 820px) {
+  .gradient-text-pink {
+    background: none !important;
+    -webkit-text-fill-color: #FF4DAE !important;
+    color: #FF4DAE !important;
+  }
+  .gradient-text-gold {
+    background: none !important;
+    -webkit-text-fill-color: #E8C76A !important;
+    color: #E8C76A !important;
+  }
+  .btn-shimmer::after { display: none !important; }
+  /* inline background-clip:text spans (about page) — solid fallback */
+  .grad-clip {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+  }
+  .grad-clip-white { -webkit-text-fill-color: #fff !important; color: #fff !important; }
+  .grad-clip-pink  { -webkit-text-fill-color: #FF4DAE !important; color: #FF4DAE !important; }
+  .grad-clip-gold  { -webkit-text-fill-color: #E8C76A !important; color: #E8C76A !important; }
+  .animate-fade-up, .animate-float, .animate-ping, .animate-spin-slow {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

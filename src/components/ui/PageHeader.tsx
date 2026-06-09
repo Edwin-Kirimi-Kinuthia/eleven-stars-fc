@@ -10,9 +10,9 @@ export default function PageHeader({ eyebrow, title, highlight, description }: P
     <section className="relative pt-28 pb-16 overflow-hidden">
       {/* subtle dot grid */}
       <div className="absolute inset-0 bg-dots opacity-30 pointer-events-none" />
-      {/* top glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(233,30,140,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+      {/* top glow — radial gradient gives a soft glow without an expensive blur filter */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-64 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 50% 100% at 50% 0%, rgba(233,30,140,0.16) 0%, transparent 75%)' }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {eyebrow && (
