@@ -1,0 +1,240 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Player {
+  id              String   @id @default(cuid())
+  number          Int      @unique
+  name            String
+  position        String
+  nationality     String
+  isCaptain       Boolean  @default(false)
+  photo           String?
+  fifaRegistered  Boolean  @default(false)
+  fifaConnectId   String?
+  appearances     Int      @default(0)
+
+  // Goalkeeper stats
+  saves           Int?     @default(0)
+  cleanSheets     Int?     @default(0)
+  goalsAgainst    Int?     @default(0)
+
+  // Defender/Center Back stats
+  tackles         Int?     @default(0)
+  interceptions   Int?     @default(0)
+  clearances      Int?     @default(0)
+  blocks          Int?     @default(0)
+
+  // Midfielder stats
+  passes          Int?     @default(0)
+  passCompletion  Int?     @default(0)
+
+  // Forward stats
+  goals           Int?     @default(0)
+  assists         Int?     @default(0)
+  shots           Int?     @default(0)
+  shotAccuracy    Int?     @default(0)
+  dribbles        Int?     @default(0)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("players")
+}
+
+model Fixture {
+  id          String   @id @default(cuid())
+  homeTeam    String   @default("Eleven Stars FC")
+  awayTeam    String
+  date        DateTime?
+  venue       String   @default("Meru Stadium")
+  homeScore   Int?
+  awayScore   Int?
+  status      String   @default("upcoming")
+  leagueName  String   @default("Conference League 2026")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("fixtures")
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String
+  content     String   @db.Text
+  coverImage  String?
+  category    String
+  author      String   @default("Admin")
+  published   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  price       Int
+  category    String
+  description String
+  emoji       String
+  badge       String?
+  photo       String?
+  stock       Int      @default(100)
+  sizes       String?
+  colors      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Ticket {
+  id        String   @id @default(cuid())
+  fixtureId String
+  type      String   @default("regular")
+  price     Int
+  quantity  Int      @default(0)
+  sold      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tickets")
+}
+
+model Donation {
+  id        String   @id @default(cuid())
+  amount    Int
+  donorName String?
+  email     String?
+  phone     String
+  tier      String?
+  message   String?  @db.Text
+  status    String   @default("pending")
+  mpesaRef  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("donations")
+}
+
+model Sponsor {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  tier      String   @default("premium")
+  logo      String?
+  website   String?
+  contact   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sponsors")
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?  @db.Text
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("team_members")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  bio       String?  @db.Text
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders          Order[]
+  ticketPurchases TicketPurchase[]
+
+  @@map("users")
+}
+
+model Standing {
+  id          String   @id @default(cuid())
+  leagueName  String   @default("Conference League 2026")
+  teamName    String
+  position    Int      @default(0)
+  played      Int      @default(0)
+  won         Int      @default(0)
+  drawn       Int      @default(0)
+  lost        Int      @default(0)
+  gf          Int      @default(0)
+  ga          Int      @default(0)
+  points      Int      @default(0)
+  isOurTeam   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("standings")
+}
+
+model Order {
+  id       String  @id @default(cuid())
+  userId   String?
+  user     User?   @relation(fields: [userId], references: [id])
+  items    Json
+  total    Int
+  name     String
+  phone    String
+  email    String?
+  address  String?
+  status   String  @default("pending")
+  mpesaRef String?
+  notes    String? @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("orders")
+}
+
+model TicketPurchase {
+  id        String  @id @default(cuid())
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id])
+  ticketId  String
+  fixtureId String
+  matchName String
+  type      String
+  quantity  Int
+  total     Int
+  name      String
+  phone     String
+  email     String?
+  status    String  @default("pending")
+  mpesaRef  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ticket_purchases")
+}

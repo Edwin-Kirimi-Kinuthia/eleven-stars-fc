@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "players" ADD COLUMN     "appearances" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "assists" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "fifaConnectId" TEXT,
+ADD COLUMN     "fifaRegistered" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "goals" INTEGER NOT NULL DEFAULT 0;
