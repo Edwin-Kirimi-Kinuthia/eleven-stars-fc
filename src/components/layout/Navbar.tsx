@@ -37,8 +37,8 @@ export default function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-base/95 backdrop-blur-md border-b border-white/8 shadow-lg shadow-black/40'
-            : 'bg-base/70 backdrop-blur-sm'
+            ? 'bg-[#080808] border-b border-white/8 shadow-lg shadow-black/40'
+            : 'bg-[#080808]/80'
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
@@ -113,7 +113,7 @@ export default function Navbar() {
       {/* Mobile drawer */}
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setOpen(false)}>
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/70" />
           <div
             className="absolute top-16 inset-x-0 bg-surface border-b border-white/10 px-4 py-4 space-y-1"
             onClick={e => e.stopPropagation()}

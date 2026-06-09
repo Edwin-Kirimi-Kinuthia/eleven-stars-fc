@@ -105,7 +105,7 @@ export default function AdminSidebar() {
       {mobileOpen && (
         <div
           className="fixed inset-0 z-50 lg:hidden"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+          style={{ background: 'rgba(0,0,0,0.8)' }}
           onClick={() => setMobileOpen(false)}
         >
           <div

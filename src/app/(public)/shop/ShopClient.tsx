@@ -271,7 +271,7 @@ export default function ShopClient() {
       {/* Cart drawer */}
       {cartOpen && (
         <div className="fixed inset-0 z-50 lg:flex justify-end" onClick={() => setCartOpen(false)}>
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm lg:hidden" />
+          <div className="absolute inset-0 bg-black/65 lg:hidden" />
           <div className="absolute inset-y-0 right-0 w-full max-w-sm bg-surface border-l border-white/8 flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/8">
               <div className="flex items-center gap-2">

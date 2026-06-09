@@ -59,7 +59,7 @@ export default function StkPushModal({ isOpen, onClose, amount, description, onS
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/75" onClick={onClose} />
       <div className="relative bg-surface border border-white/10 rounded-3xl max-w-md w-full p-8 shadow-2xl">
         <button
           onClick={onClose}
