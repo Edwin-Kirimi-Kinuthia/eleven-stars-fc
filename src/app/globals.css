@@ -25,7 +25,15 @@ body {
   background-color: #080808;
   color: #f5f5f5;
   font-family: 'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+@media (max-width: 768px) {
+  .animate-fade-up, .animate-float, .animate-ping {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ─── Scrollbar ──────────────────────────────── */

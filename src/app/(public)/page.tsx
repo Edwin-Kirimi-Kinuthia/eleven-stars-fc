@@ -29,12 +29,12 @@ export default async function HomePage() {
     <div className="bg-base text-white">
 
       {/* ── HERO ─────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex flex-col items-center justify-center"
+        style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
         {/* Background layers */}
-        <div className="absolute inset-0 bg-dots opacity-25" />
-        <div className="absolute inset-0"
+        <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,30,140,0.22) 0%, transparent 65%)' }} />
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2"
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 60% 60% at 100% 100%, rgba(201,168,76,0.12) 0%, transparent 65%)' }} />
 
         {/* Watermark logo */}
@@ -169,8 +169,7 @@ export default async function HomePage() {
 
           <div className="relative rounded-2xl bg-surface border border-white/8 overflow-hidden">
             {/* top accent */}
-            <div className="h-1 bg-gradient-to-r from-pink via-gold to-pink opacity-70" />
-            <div className="absolute inset-0 bg-dots opacity-10 pointer-events-none" />
+            <div className="h-1 bg-gradient-to-r from-pink via-gold to-pink" style={{ opacity: 0.7 }} />
 
             <div className="relative p-8 sm:p-10 lg:p-12">
               <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
@@ -293,7 +292,6 @@ export default async function HomePage() {
       <section className="pb-24 lg:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-2xl overflow-hidden border border-pink/20 bg-gradient-to-br from-pink/10 via-surface to-surface">
-            <div className="absolute inset-0 bg-dots opacity-15" />
             <div className="relative px-8 sm:px-12 py-16 sm:py-20 text-center max-w-3xl mx-auto">
               <div className="flex justify-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="#C9A84C" className="text-gold" />)}
