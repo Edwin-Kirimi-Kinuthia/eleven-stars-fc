@@ -24,20 +24,19 @@ function formatTime(d?: Date | null) {
 }
 
 export default async function FixturesPage() {
-  type Fixture = { id: string; homeTeam: string; awayTeam: string; date?: Date | null; venue: string; status: string; leagueName: string; homeScore?: number | null; awayScore?: number | null }
-  type Standing = { id: string; teamName: string; position: number; played: number; won: number; drawn: number; lost: number; gf: number; ga: number; points: number; isOurTeam: boolean }
-
-  let upcoming: Fixture[] = [], completed: Fixture[] = [], standings: Standing[] = []
+  let allFixtures: Awaited<ReturnType<typeof prisma.fixture.findMany>> = []
+  let standings: Awaited<ReturnType<typeof prisma.standing.findMany>> = []
 
   try {
-    const all = await prisma.fixture.findMany({ orderBy: { date: 'asc' } })
-    upcoming = all.filter(f => f.status === 'upcoming')
-    completed = all.filter(f => f.status === 'completed')
+    allFixtures = await prisma.fixture.findMany({ orderBy: { date: 'asc' } })
   } catch { /* DB unavailable */ }
 
   try {
     standings = await prisma.standing.findMany({ orderBy: { position: 'asc' } })
   } catch { /* DB unavailable */ }
+
+  const upcoming = allFixtures.filter(f => f.status === 'upcoming')
+  const completed = allFixtures.filter(f => f.status === 'completed')
 
   // Auto-calc table from results if no manual standings entered
   const useAutoTable = standings.length === 0
