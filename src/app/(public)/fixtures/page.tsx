@@ -2,6 +2,7 @@ import Link from 'next/link'
 import PageHeader from '@/components/ui/PageHeader'
 import { Calendar, MapPin, Trophy, Clock } from 'lucide-react'
 import prisma from '@/lib/db'
+import type { Fixture, Standing } from '@prisma/client'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -24,8 +25,8 @@ function formatTime(d?: Date | null) {
 }
 
 export default async function FixturesPage() {
-  let allFixtures: Awaited<ReturnType<typeof prisma.fixture.findMany>> = []
-  let standings: Awaited<ReturnType<typeof prisma.standing.findMany>> = []
+  let allFixtures: Fixture[] = []
+  let standings: Standing[] = []
 
   try {
     allFixtures = await prisma.fixture.findMany({ orderBy: { date: 'asc' } })
