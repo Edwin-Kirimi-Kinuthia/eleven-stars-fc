@@ -93,8 +93,17 @@ body {
   }
   .animate-float { display: none !important; }
   [class*="transition-all"],
+  [class*="transition-transform"],
   [class*="hover:-translate-y"],
-  [class*="hover:scale"] { transition: none !important; }
+  [class*="hover:scale"],
+  [class*="group-hover:scale"] {
+    transition: none !important;
+    /* kill the transform itself, not just its transition — a `group-hover`
+       scale "sticks" after a tap on touch devices, promoting the element to a
+       GPU sub-layer that low-end Android corrupts (static/ghosting on the
+       stats + Get-Involved card icons). */
+    transform: none !important;
+  }
 
   /* ── 5. Flat fallback for the home CTA banner ──
      With its gradient flattened (rule 1) it would otherwise paint

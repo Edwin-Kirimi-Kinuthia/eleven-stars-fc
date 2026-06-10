@@ -143,7 +143,7 @@ export default async function HomePage() {
                 <div className="p-6 sm:p-8 text-center">
                   <div className={`size-12 rounded-xl mx-auto mb-5 flex items-center justify-center ${
                     color === 'pink' ? 'bg-pink/10 text-pink' : 'bg-gold/10 text-gold'
-                  } transition-transform group-hover:scale-110 duration-300`}>
+                  } lg:transition-transform lg:group-hover:scale-110 duration-300`}>
                     <Icon size={22} />
                   </div>
                   <p className="text-3xl sm:text-4xl font-black text-white mb-1">{value}</p>
@@ -274,14 +274,14 @@ export default async function HomePage() {
             ].map(({ icon: Icon, title, desc, href, accent, cta }) => (
               <Link key={href} href={href}
                 className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-colors duration-300 p-8 flex flex-col lg:transition-all lg:hover:-translate-y-1">
-                <div className={`size-13 size-12 rounded-xl mb-6 flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ${
+                <div className={`size-12 rounded-xl mb-6 flex items-center justify-center lg:transition-transform lg:group-hover:scale-110 duration-300 ${
                   accent === 'pink' ? 'bg-pink/10 text-pink' : 'bg-gold/10 text-gold'
                 }`}>
                   <Icon size={24} />
                 </div>
                 <h3 className="text-white font-black text-xl mb-3">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-8">{desc}</p>
-                <div className={`flex items-center gap-2 text-sm font-bold group-hover:gap-3 transition-all duration-200 ${
+                <div className={`flex items-center gap-2 text-sm font-bold lg:group-hover:gap-3 lg:transition-all duration-200 ${
                   accent === 'pink' ? 'text-pink' : 'text-gold'
                 }`}>
                   {cta} <ArrowRight size={14} />
