@@ -29,7 +29,7 @@ export default async function HomePage() {
     <div className="bg-base text-white">
 
       {/* ── HERO ─────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden"
         style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
         {/* Background layers */}
         <div className="absolute inset-0 pointer-events-none"
