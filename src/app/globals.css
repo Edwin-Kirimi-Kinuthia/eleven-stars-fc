@@ -37,28 +37,14 @@ body {
    animations, and large stacked gradient layers. Neutralise those
    on phones — they're decorative and fall back cleanly. */
 @media (max-width: 820px) {
-  /* ── 1. Gradients ────────────────────────────────
-     Gradient fills are the primary cause of RGB-static GPU corruption on
-     low-end Adreno/Mali. We must flatten ALL of them, not just inline ones.
-     The previous rules only matched inline `style="...gradient..."` on
-     <section>s — they completely missed Tailwind's `bg-gradient-to-*`
-     UTILITY classes (8 of them on the home page, incl. a large clipped
-     `rounded-2xl overflow-hidden` banner), which is why the glitch survived
-     five prior fixes. Match utilities by class name AND every inline
-     gradient on any element. */
-  [style*="radial-gradient"],
-  [style*="linear-gradient"],
-  [style*="conic-gradient"],
-  [class*="bg-gradient-to"],
-  [class*="bg-linear-"],
-  [class*="bg-radial"],
-  [class*="bg-conic"] { background-image: none !important; }
+  /* Decorative full-viewport gradient layers are the primary cause of
+     RGB-static GPU corruption on low-end Android. Flatten every radial
+     gradient, the dot/grid patterns, and coloured shadows on phones. */
+  [style*="radial-gradient"] { background-image: none !important; }
+  section[style*="linear-gradient"] { background-image: none !important; }
   .bg-dots { background-image: none !important; }
-
-  /* ── 2. Coloured shadows tile-corrupt on weak GPUs ── */
   [class*="shadow-pink"], [class*="shadow-gold"] { box-shadow: none !important; }
 
-  /* ── 3. background-clip:text gradients → solid fills ── */
   .gradient-text-pink {
     background: none !important;
     -webkit-text-fill-color: #FF4DAE !important;
@@ -69,6 +55,10 @@ body {
     -webkit-text-fill-color: #E8C76A !important;
     color: #E8C76A !important;
   }
+  .btn-shimmer::after { display: none !important; }
+  /* smooth scroll + transformed decorative overlays worsen ghosting on weak GPUs */
+  html { scroll-behavior: auto !important; }
+  .animate-float { display: none !important; }
   /* inline background-clip:text spans (about page) — solid fallback */
   .grad-clip {
     background: none !important;
@@ -78,46 +68,19 @@ body {
   .grad-clip-white { -webkit-text-fill-color: #fff !important; color: #fff !important; }
   .grad-clip-pink  { -webkit-text-fill-color: #FF4DAE !important; color: #FF4DAE !important; }
   .grad-clip-gold  { -webkit-text-fill-color: #E8C76A !important; color: #E8C76A !important; }
-
-  /* ── 4. No animation / no transform-driven layer promotion ──
-     `transition-all` + `hover:-translate-y`/`hover:scale` make Chrome
-     pre-promote those elements to compositor layers on touch devices (where
-     there's no real hover), multiplying GPU layers for nothing. Pin them to
-     the cheap, non-composited paint path. */
-  html { scroll-behavior: auto !important; }
-  .btn-shimmer::after { display: none !important; }
   .animate-fade-up, .animate-float, .animate-ping, .animate-spin-slow {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
-  .animate-float { display: none !important; }
-  [class*="transition-all"],
-  [class*="transition-transform"],
-  [class*="hover:-translate-y"],
-  [class*="hover:scale"],
-  [class*="group-hover:scale"] {
-    transition: none !important;
-    /* kill the transform itself, not just its transition — a `group-hover`
-       scale "sticks" after a tap on touch devices, promoting the element to a
-       GPU sub-layer that low-end Android corrupts (static/ghosting on the
-       stats + Get-Involved card icons). */
-    transform: none !important;
-  }
 
-  /* ── 5. Flat fallback for the home CTA banner ──
-     With its gradient flattened (rule 1) it would otherwise paint
-     transparent; give it a flat surface tint so the section keeps shape. */
-  .cta-banner { background-color: var(--color-surface) !important; }
-
-  /* ── 6. Translucent border + SVG icon = GPU corruption ──
-     Confirmed by /gpu-test variant bisection on the affected device: a card
-     that has BOTH a translucent 1px border AND an inline SVG icon renders as
-     rainbow static; removing either is clean (border colour/translucency,
-     accent line and the grid are all innocent). Icons are essential, so drop
-     the decorative translucent borders on the home page for phones — the
-     lighter card surface already provides definition. Desktop keeps borders.
-     Scoped to .home-page so forms/inputs elsewhere are untouched. */
+  /* ── Translucent border + SVG icon = GPU corruption ──
+     Confirmed by on-device A/B bisection: a card with BOTH a translucent 1px
+     border AND an inline SVG icon renders as rainbow static on low-end
+     Android; removing either is clean. Icons are essential, so drop the
+     decorative translucent borders on the home page for phones — the lighter
+     card surface already provides definition. Desktop keeps its borders, and
+     this is scoped to .home-page so forms/inputs elsewhere are untouched. */
   .home-page [class*="border-white/"],
   .home-page [class*="border-pink/"],
   .home-page [class*="border-gold/"] {

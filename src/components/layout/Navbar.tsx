@@ -34,15 +34,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Mobile: navbar stays in normal document flow (not `fixed`). A
-          position:fixed element forces Android Chrome to composite the
-          ENTIRE long page into one oversized GPU surface, which low-end
-          GPUs corrupt (stale-tile static + ghost trails of scrolled-past
-          content). In-flow scrolling uses normal tiles → no overflow, no
-          corruption. Fixed header is restored at `lg+`. */}
       <header
-        className={`relative lg:fixed inset-x-0 top-0 z-50 transition-colors duration-300 bg-[#080808] ${
-          scrolled ? 'lg:border-b lg:border-white/8 lg:shadow-lg lg:shadow-black/40' : ''
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 bg-[#080808] ${
+          scrolled ? 'border-b border-white/8 shadow-lg shadow-black/40' : ''
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">

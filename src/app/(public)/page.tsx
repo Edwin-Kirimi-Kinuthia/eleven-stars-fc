@@ -29,16 +29,12 @@ export default async function HomePage() {
     <div className="home-page bg-base text-white">
 
       {/* ── HERO ─────────────────────────────────── */}
-      {/* Mobile renders a FLAT, single-paint section: no 100svh, no overflow
-          clip, no stacked `absolute inset-0` decorative layers. That removes
-          the viewport-tall composited layer that low-end Android GPUs can't
-          repaint on scroll (the cause of the RGB-static / ghost-trail
-          corruption). The rich layered hero is restored at `lg+` only. */}
-      <section className="relative flex flex-col items-center justify-center px-4 pt-32 pb-20 text-center lg:min-h-[100svh] lg:overflow-hidden lg:px-0 lg:pt-0 lg:pb-0">
-        {/* Decorative background layers — desktop only */}
-        <div className="absolute inset-0 pointer-events-none hidden lg:block"
+      <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden"
+        style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
+        {/* Background layers */}
+        <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,30,140,0.22) 0%, transparent 65%)' }} />
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 pointer-events-none hidden lg:block"
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse 60% 60% at 100% 100%, rgba(201,168,76,0.12) 0%, transparent 65%)' }} />
 
         {/* Watermark logo */}
@@ -94,8 +90,8 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Scroll hint — desktop only (mobile hero isn't full-height) */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 opacity-30 animate-float">
+          {/* Scroll hint */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-float">
             <div className="w-px h-10 bg-gradient-to-b from-transparent to-pink" />
             <p className="text-xs tracking-widest uppercase text-gray-500">Scroll</p>
           </div>
@@ -138,12 +134,12 @@ export default async function HomePage() {
               { value: 'Meru', label: 'Home City',          sub: 'Meru County, KE',  icon: MapPin, color: 'gold' as const },
             ].map(({ value, label, sub, icon: Icon, color }) => (
               <div key={label}
-                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-colors duration-300 overflow-hidden lg:transition-all lg:hover:-translate-y-1">
+                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                 <div className={`h-1 w-full ${color === 'pink' ? 'bg-gradient-to-r from-transparent via-pink to-transparent' : 'bg-gradient-to-r from-transparent via-gold to-transparent'} opacity-60`} />
                 <div className="p-6 sm:p-8 text-center">
                   <div className={`size-12 rounded-xl mx-auto mb-5 flex items-center justify-center ${
                     color === 'pink' ? 'bg-pink/10 text-pink' : 'bg-gold/10 text-gold'
-                  } lg:transition-transform lg:group-hover:scale-110 duration-300`}>
+                  } transition-transform group-hover:scale-110 duration-300`}>
                     <Icon size={22} />
                   </div>
                   <p className="text-3xl sm:text-4xl font-black text-white mb-1">{value}</p>
@@ -163,7 +159,7 @@ export default async function HomePage() {
           {/* Section header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="h-7 w-1 rounded-full bg-pink bg-gradient-to-b from-pink to-gold" />
+              <div className="h-7 w-1 rounded-full bg-gradient-to-b from-pink to-gold" />
               <h2 className="text-2xl sm:text-3xl font-black text-white">Next Match</h2>
             </div>
             <Link href="/fixtures" className="flex items-center gap-1.5 text-sm font-medium text-pink hover:text-pink-light transition-colors">
@@ -273,15 +269,15 @@ export default async function HomePage() {
               },
             ].map(({ icon: Icon, title, desc, href, accent, cta }) => (
               <Link key={href} href={href}
-                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-colors duration-300 p-8 flex flex-col lg:transition-all lg:hover:-translate-y-1">
-                <div className={`size-12 rounded-xl mb-6 flex items-center justify-center lg:transition-transform lg:group-hover:scale-110 duration-300 ${
+                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-all duration-300 hover:-translate-y-1 p-8 flex flex-col">
+                <div className={`size-13 size-12 rounded-xl mb-6 flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ${
                   accent === 'pink' ? 'bg-pink/10 text-pink' : 'bg-gold/10 text-gold'
                 }`}>
                   <Icon size={24} />
                 </div>
                 <h3 className="text-white font-black text-xl mb-3">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed flex-1 mb-8">{desc}</p>
-                <div className={`flex items-center gap-2 text-sm font-bold lg:group-hover:gap-3 lg:transition-all duration-200 ${
+                <div className={`flex items-center gap-2 text-sm font-bold group-hover:gap-3 transition-all duration-200 ${
                   accent === 'pink' ? 'text-pink' : 'text-gold'
                 }`}>
                   {cta} <ArrowRight size={14} />
@@ -295,7 +291,7 @@ export default async function HomePage() {
       {/* ── CTA BANNER ───────────────────────────── */}
       <section className="pb-24 lg:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="cta-banner relative rounded-2xl overflow-hidden border border-pink/20 bg-gradient-to-br from-pink/10 via-surface to-surface">
+          <div className="relative rounded-2xl overflow-hidden border border-pink/20 bg-gradient-to-br from-pink/10 via-surface to-surface">
             <div className="relative px-8 sm:px-12 py-16 sm:py-20 text-center max-w-3xl mx-auto">
               <div className="flex justify-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="#C9A84C" className="text-gold" />)}
