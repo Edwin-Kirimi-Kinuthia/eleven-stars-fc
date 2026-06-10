@@ -29,12 +29,16 @@ export default async function HomePage() {
     <div className="bg-base text-white">
 
       {/* ── HERO ─────────────────────────────────── */}
-      <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden"
-        style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '24px 24px' }}>
-        {/* Background layers */}
-        <div className="absolute inset-0 pointer-events-none"
+      {/* Mobile renders a FLAT, single-paint section: no 100svh, no overflow
+          clip, no stacked `absolute inset-0` decorative layers. That removes
+          the viewport-tall composited layer that low-end Android GPUs can't
+          repaint on scroll (the cause of the RGB-static / ghost-trail
+          corruption). The rich layered hero is restored at `lg+` only. */}
+      <section className="relative flex flex-col items-center justify-center px-4 pt-32 pb-20 text-center lg:min-h-[100svh] lg:overflow-hidden lg:px-0 lg:pt-0 lg:pb-0">
+        {/* Decorative background layers — desktop only */}
+        <div className="absolute inset-0 pointer-events-none hidden lg:block"
           style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,30,140,0.22) 0%, transparent 65%)' }} />
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 pointer-events-none"
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 pointer-events-none hidden lg:block"
           style={{ background: 'radial-gradient(ellipse 60% 60% at 100% 100%, rgba(201,168,76,0.12) 0%, transparent 65%)' }} />
 
         {/* Watermark logo */}
@@ -90,8 +94,8 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Scroll hint */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-float">
+          {/* Scroll hint — desktop only (mobile hero isn't full-height) */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 opacity-30 animate-float">
             <div className="w-px h-10 bg-gradient-to-b from-transparent to-pink" />
             <p className="text-xs tracking-widest uppercase text-gray-500">Scroll</p>
           </div>
@@ -134,7 +138,7 @@ export default async function HomePage() {
               { value: 'Meru', label: 'Home City',          sub: 'Meru County, KE',  icon: MapPin, color: 'gold' as const },
             ].map(({ value, label, sub, icon: Icon, color }) => (
               <div key={label}
-                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-colors duration-300 overflow-hidden lg:transition-all lg:hover:-translate-y-1">
                 <div className={`h-1 w-full ${color === 'pink' ? 'bg-gradient-to-r from-transparent via-pink to-transparent' : 'bg-gradient-to-r from-transparent via-gold to-transparent'} opacity-60`} />
                 <div className="p-6 sm:p-8 text-center">
                   <div className={`size-12 rounded-xl mx-auto mb-5 flex items-center justify-center ${
@@ -159,7 +163,7 @@ export default async function HomePage() {
           {/* Section header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="h-7 w-1 rounded-full bg-gradient-to-b from-pink to-gold" />
+              <div className="h-7 w-1 rounded-full bg-pink bg-gradient-to-b from-pink to-gold" />
               <h2 className="text-2xl sm:text-3xl font-black text-white">Next Match</h2>
             </div>
             <Link href="/fixtures" className="flex items-center gap-1.5 text-sm font-medium text-pink hover:text-pink-light transition-colors">
@@ -269,7 +273,7 @@ export default async function HomePage() {
               },
             ].map(({ icon: Icon, title, desc, href, accent, cta }) => (
               <Link key={href} href={href}
-                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-all duration-300 hover:-translate-y-1 p-8 flex flex-col">
+                className="group rounded-2xl bg-surface border border-white/8 hover:border-white/15 transition-colors duration-300 p-8 flex flex-col lg:transition-all lg:hover:-translate-y-1">
                 <div className={`size-13 size-12 rounded-xl mb-6 flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ${
                   accent === 'pink' ? 'bg-pink/10 text-pink' : 'bg-gold/10 text-gold'
                 }`}>
