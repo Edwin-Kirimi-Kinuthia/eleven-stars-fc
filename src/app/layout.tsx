@@ -33,9 +33,17 @@ export const metadata: Metadata = {
     description: "Meru's rising Conference League team.",
     images: ['/logo.png'],
   },
-  // Paste your token into GOOGLE_SITE_VERIFICATION to use the HTML-tag method
-  // (the DNS method in Search Console needs no code).
-  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  // Search-engine ownership verification (HTML-tag method).
+  //  • Google: paste token into GOOGLE_SITE_VERIFICATION (DNS method needs no code).
+  //  • Bing: easiest is "Import from Google Search Console" in Bing Webmaster
+  //    Tools (no code). Otherwise paste the msvalidate.01 token into
+  //    BING_SITE_VERIFICATION.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { 'msvalidate.01': process.env.BING_SITE_VERIFICATION }
+      : {},
+  },
 }
 
 const jsonLd = {
