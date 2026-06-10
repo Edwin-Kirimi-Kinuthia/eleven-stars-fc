@@ -109,6 +109,20 @@ body {
      With its gradient flattened (rule 1) it would otherwise paint
      transparent; give it a flat surface tint so the section keeps shape. */
   .cta-banner { background-color: var(--color-surface) !important; }
+
+  /* ── 6. Translucent border + SVG icon = GPU corruption ──
+     Confirmed by /gpu-test variant bisection on the affected device: a card
+     that has BOTH a translucent 1px border AND an inline SVG icon renders as
+     rainbow static; removing either is clean (border colour/translucency,
+     accent line and the grid are all innocent). Icons are essential, so drop
+     the decorative translucent borders on the home page for phones — the
+     lighter card surface already provides definition. Desktop keeps borders.
+     Scoped to .home-page so forms/inputs elsewhere are untouched. */
+  .home-page [class*="border-white/"],
+  .home-page [class*="border-pink/"],
+  .home-page [class*="border-gold/"] {
+    border-style: none !important;
+  }
 }
 
 /* ─── Scrollbar ──────────────────────────────── */

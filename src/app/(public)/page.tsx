@@ -26,7 +26,7 @@ export default async function HomePage() {
     : null
 
   return (
-    <div className="bg-base text-white">
+    <div className="home-page bg-base text-white">
 
       {/* ── HERO ─────────────────────────────────── */}
       {/* Mobile renders a FLAT, single-paint section: no 100svh, no overflow
