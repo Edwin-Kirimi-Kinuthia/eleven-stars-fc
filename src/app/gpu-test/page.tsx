@@ -1,106 +1,139 @@
-/* GPU diagnostic page — intentionally NOT under the (public) layout, so there
-   is NO navbar, NO footer, NO shared shell. Pure isolation.
+/* GPU diagnostic page — standalone (no navbar/footer/shared shell).
 
-   Each ZONE adds exactly ONE suspect on top of the plain baseline. Scroll the
-   whole page on the affected phone and note the FIRST zone that shows the
-   static/ghosting glitch. That single answer tells us the cause:
+   This version replicates the ACTUAL home stats card that glitches, then
+   strips ONE property per variant. Scroll the whole page on the affected
+   phone and tell me the FIRST variant that is CLEAN — that names the exact
+   offending property.
 
-     • ZONE A (plain solid blocks) glitches  → it's the device/browser GPU
-       itself, not our code. No redesign can fix that from the web side.
-     • First glitch at B/C/D/E → that specific technique is the trigger, and
-       we remove only that, everywhere.
-     • Nothing glitches here at all → the cause is something unique to the
-       real pages (an image, a font, a specific component) and we bisect those.
+   The deployed commit SHA is printed at the very top: tell me what it says so
+   we can confirm you're testing the newest build and not a cached one. */
 
-   No client JS, no gradients-by-default, no images. */
+import { Trophy, Star, Heart, MapPin } from 'lucide-react'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
-function Block({ color, label }: { color: string; label: string }) {
+const BUILD =
+  process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ??
+  process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ??
+  'local-dev'
+
+const items = [
+  { value: '11', label: 'Squad Players', sub: 'First XI', icon: Trophy, color: 'pink' as const },
+  { value: '2026', label: 'Conference League', sub: 'Current Season', icon: Star, color: 'gold' as const },
+  { value: '2', label: 'Official Sponsors', sub: 'Akash · Moxi', icon: Heart, color: 'pink' as const },
+  { value: 'Meru', label: 'Home City', sub: 'Meru County, KE', icon: MapPin, color: 'gold' as const },
+]
+
+function Label({ n, text }: { n: string; text: string }) {
   return (
-    <div
-      style={{ background: color, minHeight: '90vh' }}
-      className="flex items-center justify-center"
-    >
-      <span style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>{label}</span>
+    <div style={{ background: '#000', padding: '40px 16px 12px' }}>
+      <p style={{ color: '#FF4DAE', fontWeight: 900, fontSize: 13, letterSpacing: 2 }}>VARIANT {n}</p>
+      <p style={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>{text}</p>
     </div>
+  )
+}
+
+/* opts let each variant drop one property */
+function StatsGrid({
+  icons = true,
+  translucent = true,
+  border = true,
+  accent = true,
+}: {
+  icons?: boolean
+  translucent?: boolean
+  border?: boolean
+  accent?: boolean
+}) {
+  return (
+    <section style={{ background: '#080808', padding: '8px 16px 32px' }}>
+      <div className="grid grid-cols-2 gap-4">
+        {items.map(({ value, label, sub, icon: Icon, color }) => (
+          <div
+            key={label}
+            className="rounded-2xl overflow-hidden"
+            style={{
+              background: '#111',
+              border: border ? '1px solid rgba(255,255,255,0.08)' : 'none',
+            }}
+          >
+            {accent && (
+              <div
+                style={{
+                  height: 4,
+                  width: '100%',
+                  opacity: 0.6,
+                  background:
+                    color === 'pink'
+                      ? 'linear-gradient(to right, transparent, #E91E8C, transparent)'
+                      : 'linear-gradient(to right, transparent, #C9A84C, transparent)',
+                }}
+              />
+            )}
+            <div style={{ padding: 24, textAlign: 'center' }}>
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 12,
+                  margin: '0 auto 20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background:
+                    color === 'pink'
+                      ? translucent
+                        ? 'rgba(233,30,140,0.1)'
+                        : '#3a1027'
+                      : translucent
+                        ? 'rgba(201,168,76,0.1)'
+                        : '#2e2817',
+                  color: color === 'pink' ? '#E91E8C' : '#C9A84C',
+                }}
+              >
+                {icons && <Icon size={22} />}
+              </div>
+              <p style={{ fontSize: 30, fontWeight: 900, color: '#fff', marginBottom: 4 }}>{value}</p>
+              <p style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>{label}</p>
+              <p style={{ fontSize: 12, color: '#666' }}>{sub}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
 
 export default function GpuTestPage() {
   return (
-    <div style={{ background: '#000' }}>
-      {/* ZONE A — plain opaque solid colours (the baseline). If THIS glitches,
-          it's the device GPU, full stop. */}
-      <Block color="#101010" label="ZONE A · plain #101010" />
-      <Block color="#b91c5c" label="ZONE A · plain solid pink" />
-      <Block color="#1d4ed8" label="ZONE A · plain solid blue" />
-      <Block color="#15803d" label="ZONE A · plain solid green" />
-
-      {/* ZONE B — one big CSS gradient fill */}
-      <div
-        style={{ minHeight: '90vh', background: 'linear-gradient(135deg,#E91E8C,#0A0A0A 70%)' }}
-        className="flex items-center justify-center"
-      >
-        <span style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>ZONE B · CSS gradient</span>
+    <div style={{ background: '#000', minHeight: '100vh' }}>
+      {/* BUILD STAMP — confirm this matches the latest pushed commit */}
+      <div style={{ background: '#FF4DAE', color: '#000', padding: 16, fontWeight: 900, fontSize: 16, textAlign: 'center' }}>
+        BUILD: {BUILD} — tell me this code
+      </div>
+      <div style={{ background: '#000', color: '#bbb', padding: '16px', fontSize: 14, lineHeight: 1.5 }}>
+        Scroll down. Each variant is the home stats grid with ONE thing removed.
+        Tell me the FIRST variant that is CLEAN (no static/ghosting).
       </div>
 
-      {/* ZONE C — many overlapping semi-transparent layers (translucent compositing) */}
-      <div style={{ position: 'relative', minHeight: '90vh', background: '#0d0d0d' }}>
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: 'absolute',
-              inset: `${i * 6}%`,
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: 24,
-            }}
-          />
-        ))}
-        <div className="flex items-center justify-center" style={{ minHeight: '90vh', position: 'relative' }}>
-          <span style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>ZONE C · stacked translucent layers</span>
-        </div>
-      </div>
+      <Label n="1" text="EXACT replica of the home stats cards (should glitch)" />
+      <StatsGrid />
 
-      {/* ZONE D — rounded + overflow:hidden clip with content (clip-layer promotion) */}
-      <div style={{ minHeight: '90vh', background: '#0d0d0d' }} className="flex items-center justify-center">
-        <div
-          style={{
-            width: '90%',
-            height: '70vh',
-            borderRadius: 24,
-            overflow: 'hidden',
-            background: '#1a1a1a',
-            border: '1px solid rgba(255,255,255,0.1)',
-          }}
-          className="flex items-center justify-center"
-        >
-          <span style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>ZONE D · rounded overflow-hidden clip</span>
-        </div>
-      </div>
+      <Label n="2" text="…with NO icons (SVG removed)" />
+      <StatsGrid icons={false} />
 
-      {/* ZONE E — a position:fixed element present while you scroll this zone */}
-      <div style={{ minHeight: '120vh', background: '#0d0d0d', position: 'relative' }} className="flex items-center justify-center">
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 56,
-            background: '#E91E8C',
-            zIndex: 50,
-          }}
-          className="flex items-center justify-center"
-        >
-          <span style={{ color: '#fff', fontWeight: 800 }}>ZONE E · fixed bar (scroll under me)</span>
-        </div>
-        <span style={{ color: '#fff', fontSize: 28, fontWeight: 800 }}>ZONE E · content under a fixed element</span>
-      </div>
+      <Label n="3" text="…with SOLID icon backgrounds (no translucency)" />
+      <StatsGrid translucent={false} />
 
-      <Block color="#101010" label="END — scroll complete" />
+      <Label n="4" text="…with NO card border" />
+      <StatsGrid border={false} />
+
+      <Label n="5" text="…with NO top accent line + no border + solid + no icons (barest)" />
+      <StatsGrid icons={false} translucent={false} border={false} accent={false} />
+
+      <div style={{ height: '40vh', background: '#000', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>
+        END
+      </div>
     </div>
   )
 }
