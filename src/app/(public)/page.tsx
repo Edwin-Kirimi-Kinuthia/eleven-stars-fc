@@ -291,7 +291,7 @@ export default async function HomePage() {
       {/* ── CTA BANNER ───────────────────────────── */}
       <section className="pb-24 lg:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-2xl overflow-hidden border border-pink/20 bg-gradient-to-br from-pink/10 via-surface to-surface">
+          <div className="cta-banner relative rounded-2xl overflow-hidden border border-pink/20 bg-gradient-to-br from-pink/10 via-surface to-surface">
             <div className="relative px-8 sm:px-12 py-16 sm:py-20 text-center max-w-3xl mx-auto">
               <div className="flex justify-center gap-1 mb-6">
                 {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="#C9A84C" className="text-gold" />)}
