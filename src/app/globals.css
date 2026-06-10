@@ -25,7 +25,10 @@ body {
   background-color: #080808;
   color: #f5f5f5;
   font-family: 'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
+  /* NOTE: no `overflow-x` here. Setting overflow on the scroll root forces
+     Android Chrome onto a non-accelerated scroll path that leaves repaint
+     trails (ghosting) on low-end GPUs. Horizontal overflow is instead
+     contained per-section with `overflow-hidden`. */
 }
 
 /* ─── Mobile GPU-safety ──────────────────────────
@@ -53,6 +56,9 @@ body {
     color: #E8C76A !important;
   }
   .btn-shimmer::after { display: none !important; }
+  /* smooth scroll + transformed decorative overlays worsen ghosting on weak GPUs */
+  html { scroll-behavior: auto !important; }
+  .animate-float { display: none !important; }
   /* inline background-clip:text spans (about page) — solid fallback */
   .grad-clip {
     background: none !important;

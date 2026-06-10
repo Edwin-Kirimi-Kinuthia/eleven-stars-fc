@@ -54,7 +54,7 @@ export default async function AboutPage() {
     <div className="bg-base text-white overflow-x-hidden">
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center py-24"
+      <section className="relative min-h-screen flex flex-col items-center justify-center py-24 overflow-hidden"
         style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)', backgroundSize: '60px 60px' }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 90% 60% at 50% -10%, rgba(233,30,140,0.14) 0%, transparent 65%)' }} />
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 50% 40% at 85% 85%, rgba(201,168,76,0.07) 0%, transparent 60%)' }} />
