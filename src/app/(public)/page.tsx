@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Ticket, Heart, Star, ArrowRight, Calendar, MapPin, ShoppingBag, Trophy, Zap } from 'lucide-react'
+import { Ticket, Heart, Star, ArrowRight, Calendar, MapPin, ShoppingBag, Trophy, Zap, GraduationCap } from 'lucide-react'
 import prisma from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
@@ -284,6 +284,32 @@ export default async function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ACADEMY ──────────────────────────────── */}
+      <section className="pb-24 lg:pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative rounded-2xl bg-surface border border-white/8 overflow-hidden p-8 sm:p-12">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-12">
+              <div className="flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-bold uppercase tracking-wider mb-5">
+                  <GraduationCap size={12} /> Youth Academy
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 leading-tight">
+                  Eleven Stars <span className="gradient-text-pink">Nova Sports Academy</span>
+                </h2>
+                <p className="text-gray-400 leading-relaxed max-w-xl">
+                  More than a team — a community hub nurturing young athletes from Meru through sport,
+                  education and mentorship. Building better athletes, better students, and better futures.
+                </p>
+              </div>
+              <Link href="/academy"
+                className="btn-shimmer shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-pink hover:bg-pink-dark text-white font-bold transition-colors duration-200 shadow-lg shadow-pink/25">
+                Explore the Academy <ArrowRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

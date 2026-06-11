@@ -10,6 +10,7 @@ import { Menu, X, User, LogIn } from 'lucide-react'
 const links = [
   { label: 'Home',     href: '/' },
   { label: 'About',    href: '/about' },
+  { label: 'Academy',  href: '/academy' },
   { label: 'Squad',    href: '/squad' },
   { label: 'Fixtures', href: '/fixtures' },
   { label: 'Blog',     href: '/blog' },

@@ -80,10 +80,13 @@ body {
      Android; removing either is clean. Icons are essential, so drop the
      decorative translucent borders on the home page for phones — the lighter
      card surface already provides definition. Desktop keeps its borders, and
-     this is scoped to .home-page so forms/inputs elsewhere are untouched. */
+     scoped to the marked pages so forms/inputs elsewhere are untouched. */
   .home-page [class*="border-white/"],
   .home-page [class*="border-pink/"],
-  .home-page [class*="border-gold/"] {
+  .home-page [class*="border-gold/"],
+  .academy-page [class*="border-white/"],
+  .academy-page [class*="border-pink/"],
+  .academy-page [class*="border-gold/"] {
     border-style: none !important;
   }
 }
