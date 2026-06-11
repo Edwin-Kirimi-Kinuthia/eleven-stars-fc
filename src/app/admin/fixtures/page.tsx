@@ -48,6 +48,8 @@ function toTime(d?: string | null) { if (!d) return ''; try { const dt = new Dat
 
 export default function AdminFixturesPage() {
   const [tab, setTab] = useState<'fixtures'|'standings'>('fixtures')
+  const [seeding, setSeeding] = useState(false)
+  const [seedMsg, setSeedMsg] = useState('')
 
   const [fixtures, setFixtures] = useState<Fixture[]>([])
   const [loadF, setLoadF] = useState(true)
@@ -64,6 +66,21 @@ export default function AdminFixturesPage() {
   const [sf, setSf] = useState(emptyStand)
 
   useEffect(() => { fetchF(); fetchS() }, [])
+
+  const seedLeague2026 = async () => {
+    if (!confirm('This will DELETE all existing fixtures and standings, then load the 2026 Conference League data. Continue?')) return
+    setSeeding(true); setSeedMsg('')
+    try {
+      const r = await fetch('/api/admin/seed-league-2026', { method: 'POST' })
+      const d = await r.json()
+      if (r.ok) {
+        setSeedMsg(`✓ Loaded: 12 standings · ${d.completed} results · ${d.upcoming} upcoming`)
+        await fetchF(); await fetchS()
+      } else {
+        setSeedMsg(`Error: ${d.error}`)
+      }
+    } catch (e) { setSeedMsg(`Error: ${e}`) } finally { setSeeding(false) }
+  }
 
   const fetchF = async () => {
     try { setLoadF(true); const r = await fetch('/api/fixtures'); const d = await r.json(); setFixtures(Array.isArray(d)?d:[]) } catch { setFixtures([]) } finally { setLoadF(false) }
@@ -126,7 +143,7 @@ export default function AdminFixturesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {([['fixtures','Fixtures',Calendar],['standings','League Table',Trophy]] as const).map(([id, label, Icon]) => (
           <button key={id} onClick={() => setTab(id)}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all"
@@ -134,6 +151,15 @@ export default function AdminFixturesPage() {
             <Icon size={14} /> {label}
           </button>
         ))}
+        <div className="ml-auto flex flex-col items-end gap-1">
+          <button onClick={seedLeague2026} disabled={seeding}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-50 transition-all hover:scale-105"
+            style={{ background: 'rgba(201,168,76,0.15)', color: '#C9A84C', border: '1px solid rgba(201,168,76,0.3)' }}>
+            {seeding ? <Loader2 size={14} className="animate-spin" /> : <Trophy size={14} />}
+            Load 2026 Season Data
+          </button>
+          {seedMsg && <p className="text-xs" style={{ color: seedMsg.startsWith('✓') ? '#4ADE80' : '#F87171' }}>{seedMsg}</p>}
+        </div>
       </div>
 
       {/* FIXTURES */}
